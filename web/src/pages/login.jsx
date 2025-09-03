@@ -10,7 +10,7 @@ const LoginPage = () => {
     const onFinish = async (values) => {
         const { email, password } = values;
         const res = await loginApi(email, password);
-        if (res && res.EC === 0) {
+        if (res && res.user.EC === 0) {
             localStorage.setItem("access_token", res.access_token)
             notification.success({
                 message: "LOGIN USER",
@@ -25,6 +25,7 @@ const LoginPage = () => {
             })
             navigate("/");
         } else {
+            alert("Tai khoan hoac mat khau khong chinh xac")
             notification.error({
                 message: "LOGIN USER",
                 description: res?.EM ?? "error"
@@ -44,7 +45,7 @@ const LoginPage = () => {
                     <Form
                         name="basic"
                         onFinish={onFinish}
-                        autocomplete="off"
+                        autoComplete="off"
                         layout='vertical'
                     >
                         <Form.Item
