@@ -17,7 +17,7 @@ routerAPI.get("/", (req, res) => {
 });
 routerAPI.post("/register", createUser);
 routerAPI.post("/login", handleLogin);
-routerAPI.get("/products",getAllProduct)
+routerAPI.get("/products",auth,getAllProduct)
 
 // Route cần bảo vệ - thêm middleware auth
 routerAPI.get("/user", auth, getUser);
