@@ -79,8 +79,76 @@ const getUserService = async () => {
     return null;
   }
 }
+const getFavoriteProductsService = async (userEmail) => {
+  const user = await User.findOne({ email: userEmail }).populate("favorites");
+  return user ? user.favorites : [];
+};
+
+// Lấy sản phẩm đã xem của user
+const getRecentlyViewedProductsService = async (userEmail) => {
+  const user = await User.findOne({ email: userEmail }).populate("recentlyViewed");
+  return user ? user.recentlyViewed : [];
+};
+
+// Kiểm tra sản phẩm đã được thích
+const checkProductLikedService = async (userEmail, productId) => {
+  const user = await User.findOne({ email: userEmail });
+  if (!user) return false;
+
+  // Chú ý: favorites là mảng ObjectId nên cần so sánh chuỗi
+  return user.favorites.some(fav => fav.toString() === productId.toString());
+};
+
+
+// Thích sản phẩm
+const likeProductService = async (userEmail, productId) => {
+  const user = await User.findOne({ email: userEmail });
+  const product = await Product.findById(productId);
+  if (!user || !product) throw new Error("User hoặc Product không tồn tại");
+
+  if (!user.favoriteProducts.includes(productId)) {
+    user.favoriteProducts.push(productId);
+    product.likes += 1;
+    product.likedUsers.push(user._id);
+    await user.save();
+    await product.save();
+  }
+  return product;
+};
+
+// Bỏ thích sản phẩm
+const unlikeProductService = async (userEmail, productId) => {
+  const user = await User.findOne({ email: userEmail });
+  const product = await Product.findById(productId);
+  if (!user || !product) throw new Error("User hoặc Product không tồn tại");
+
+  user.favoriteProducts = user.favoriteProducts.filter((p) => p.toString() !== productId);
+  product.likes = Math.max(product.likes - 1, 0);
+  product.likedUsers = product.likedUsers.filter((u) => u.toString() !== user._id.toString());
+
+  await user.save();
+  await product.save();
+  return product;
+};
+
+// Tăng lượt xem
+
+
+// Tăng lượt mua
+const purchaseProductService = async (productId) => {
+  const product = await Product.findById(productId);
+  if (!product) throw new Error("Product không tồn tại");
+  product.purchases += 1;
+  await product.save();
+  return product;
+};
 
 // export function
 module.exports = {
-  createUserService,loginService, getUserService
+  createUserService,loginService, getUserService, getFavoriteProductsService,
+  getRecentlyViewedProductsService,
+  checkProductLikedService,
+  likeProductService,
+  unlikeProductService,
+  purchaseProductService,
 };

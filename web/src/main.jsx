@@ -12,6 +12,10 @@ import HomePage from './pages/home.jsx';
 import LoginPage from './pages/login.jsx';
 import { AuthWrapper } from './components/context/auth.wrapper.jsx';
 import ProductPage from './pages/product.jsx';
+import ProductDetailPage from './pages/ProductDetailPage.jsx';
+import ViewedProductsPage from './pages/ViewedProductsPage.jsx';
+import FavoriteProductsPage from './pages/FavoriteProductsPage.jsx';
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -26,8 +30,23 @@ const router = createBrowserRouter([
         element: <UserPage />
       },
       {
-        path :"product",
-        element: <ProductPage/>
+        path: "product",
+        element: <ProductPage />
+      },
+      {
+        path: "/products/:id",
+
+        element: <ProductDetailPage />
+      },
+       {
+        path: "/viewd",
+
+        element: <ViewedProductsPage />
+      },
+       {
+        path: "/like",
+
+        element: < FavoriteProductsPage/>
       }
     ]
   },

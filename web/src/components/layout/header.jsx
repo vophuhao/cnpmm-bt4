@@ -23,6 +23,16 @@ const Header = () => {
             key: 'product',
             icon: <ProductFilled />,
         }] : []),
+         ...(auth.isAuthenticated ? [{
+            label: <Link to={"/viewd"}>View</Link>,
+            key: 'product',
+            icon: <ProductFilled />,
+        }] : []),
+         ...(auth.isAuthenticated ? [{
+            label: <Link to={"/like"}>like</Link>,
+            key: 'product',
+            icon: <ProductFilled />,
+        }] : []),
         {
             label: `Welcome ${auth?.user?.email ?? ""} `,
             key: 'SubMenu',
