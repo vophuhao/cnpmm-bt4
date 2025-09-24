@@ -89,7 +89,7 @@ const getProducts = async (page, limit, filters) => {
 
 // Tăng lượt xem khi người dùng truy cập chi tiết sản phẩm
 const incrementViews = async (userEmail, productId) => {
-  console.log(userEmail)
+
   try {
     const product = await Product.findById(productId);
     const user = userEmail ? await User.findOne({ email: userEmail }) : null;

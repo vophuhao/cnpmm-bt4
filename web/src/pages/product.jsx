@@ -61,7 +61,6 @@ export default function ProductPage() {
 
       const newProducts = Array.isArray(res.data) ? res.data : res?.data?.data || [];
       const total = Number(res?.total || res?.data?.total) || 0;
-      console.log(res.data)
       if (pageNumber === 1) {
         setProducts(newProducts);
       } else {
@@ -96,7 +95,6 @@ export default function ProductPage() {
   }, 400);
 
   const skeletonItems = Array.from({ length: PAGE_SIZE }, (_, i) => i);
-  console.log(products)
   return (
     <div style={{ padding: 20, backgroundColor: "#f7f8fa", minHeight: "100vh" }}>
       <h2 style={{ marginBottom: 20 }}>Sản phẩm</h2>
